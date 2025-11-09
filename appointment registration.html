@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Appointment Registration - Wings</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .error-text {
+      font-size: 14px;
+      color: red;
+      display: none;
+    }
+    .shake {
+      animation: shake .3s;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      50% { transform: translateX(4px); }
+      75% { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg" style="background-color:#0d6efd;">
+  <div class="container-fluid">
+    <img src="wing 1.png" style="height: 70px;">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link text-white" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="profile.html">Profile</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="create-post.html">Create Post</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="post.html">Posts</a></li>
+        <li class="nav-item"><a class="nav-link text-white active" href="apoinment.html">Appointments</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="login.html">Login</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="registration.html">Register</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="about.html">About Us</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container my-5" style="max-width: 700px;">
+  <h2 class="text-center mb-4 text-primary fw-semibold">Book an Appointment</h2>
+
+  <form id="appointForm">
+
+    <div class="mb-3">
+      <label class="form-label">Full Name</label>
+      <input type="text" class="form-control" id="fullName" placeholder="Enter your full name">
+      <div class="error-text" id="nameError">Full Name is required</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Email Address</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter your email">
+      <div class="error-text" id="emailError">Enter a valid email</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Phone Number</label>
+      <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+      <div class="error-text" id="phoneError">Phone must be 10 digits</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Address (Optional)</label>
+      <textarea class="form-control" id="address" rows="3" placeholder="Enter address if applicable"></textarea>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Preferred Date</label>
+        <input type="date" class="form-control" id="date">
+        <div class="error-text" id="dateError">Select a date</div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Preferred Time</label>
+        <input type="time" class="form-control" id="time">
+        <div class="error-text" id="timeError">Select a time</div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Type of Work</label>
+      <select class="form-select" id="serviceType">
+        <option value="">Choose...</option>
+        <option value="art">Art / Illustration</option>
+        <option value="fashion">Fashion Design</option>
+        <option value="digital">Digital Work</option>
+        <option value="other">Other</option>
+      </select>
+      <div class="error-text" id="serviceError">Please select a service type</div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Description of Work (Optional)</label>
+      <textarea class="form-control" id="description" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 fw-semibold py-2">Submit Appointment</button>
+  </form>
+</div>
+
+<footer class="bg-white text-center p-3 border-top">
+  &copy; 2025 Wings | All Rights Reserved
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+document.getElementById("appointForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  let valid = true;
+
+  function showError(idInput, idError) {
+    valid = false;
+    let input = document.getElementById(idInput);
+    document.getElementById(idError).style.display = "block";
+    input.classList.add("shake");
+    setTimeout(() => input.classList.remove("shake"), 300);
+  }
+  function hideError(idError) {
+    document.getElementById(idError).style.display = "none";
+  }
+
+  const name = fullName.value.trim();
+  const emailVal = email.value.trim();
+  const phoneVal = phone.value.trim();
+  const dateVal = date.value;
+  const timeVal = time.value;
+  const serviceVal = serviceType.value;
+
+  name ? hideError("nameError") : showError("fullName","nameError");
+  emailVal.includes("@") ? hideError("emailError") : showError("email","emailError");
+  phoneVal.length === 10 ? hideError("phoneError") : showError("phone","phoneError");
+  dateVal ? hideError("dateError") : showError("date","dateError");
+  timeVal ? hideError("timeError") : showError("time","timeError");
+  serviceVal ? hideError("serviceError") : showError("serviceType","serviceError");
+
+  if(valid){
+    alert("✅ Appointment Submitted Successfully!");
+    this.reset();
+  }
+});
+</script>
+
+</body>
+</html>
